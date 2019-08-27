@@ -1,25 +1,63 @@
-let templateString = `What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little "clever" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo.`;
-let adjustedString = templateString.split("").reverse();
-let displayedString = "";
-let container = document.querySelector("#scriptContainer");
-let paragraph = document.querySelector("#dynamicString");
-let delay = 20;
-let typeyThing = "|";
+let concurrentTypeStrings = document.getElementsByClassName("type_string_concurrent");  // These two are for lazy people who just want to put a CSS class on an element and have its content typed out
+let staggeredTypeStrings = document.getElementsByClassName("type_string_staggered");    // type_string_concurrent happen simultaneously, type_string_staggered happen one after another
+let staggerStrings = [];
+let staggerIters = 0;
+let delay = 20;             // Delay between symbols in milliseconds
+let staggerDelay = delay*5; // Delay between staggered typings starting, also in milliseconds
 
-function shiftLetter() {
-  if (adjustedString.length > 0) {
-    displayedString += adjustedString.pop();
-  } else {
-    clearInterval(typeSpeed);
-    typeyThing = "";
+//////////////////////////////////////////////////////////////
+// Probably make the typeString calls in here to keep it clean
+
+//////////////////////////////////////////////////////////////
+
+// Loop through staggered type strings and put their content in the staggerStrings array
+for (let element of staggeredTypeStrings)
+{
+  staggerStrings.push(element.innerHTML);
+  element.innerHTML = "";
+}
+
+// The interval that ticks through the staggered strings, starting them individually
+let staggerBot = setInterval(function() {
+  if (staggerIters < staggerStrings.length)
+  {
+    typeString(staggerStrings[staggerIters], delay, staggeredTypeStrings[staggerIters]);
+    staggerIters++;
   }
-  displayString(displayedString);
+  else {
+    clearInterval(staggerBot);
+    staggerIters = 0;
+  }
+}, staggerDelay);
+
+// Loops through all concurrent type strings and starts typing them
+for (let element of concurrentTypeStrings)
+{
+  let tempString = element.innerHTML;
+  element.innerHTML = "";
+  typeString(tempString, delay, element);
 }
 
-function displayString(string) {
-  paragraph.innerHTML = string + typeyThing;
+// Takes the given string and uses an interval to tick through it, adding each character to a new string that is then put into the destination (an element)
+function typeString(string, speed, destination) {
+  let i = 0;
+  let displayedString = "";
+  let typeyThing = "|";
+
+  let typeBot = setInterval(function() {
+    if (i < string.length) {
+      displayedString += string[i];
+      i++;
+    } else {
+      clearInterval(typeBot);
+      typeyThing = "";
+    }
+
+    displayString(displayedString + typeyThing, destination);
+  }, speed);
 }
 
-let typeSpeed = setInterval(function() {
-  shiftLetter();
-}, delay);
+// Inputs a given string into a given destination/element
+function displayString(string, destination) {
+  destination.innerHTML = string;
+}
