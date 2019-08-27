@@ -7,20 +7,24 @@
   <title>Document</title>
 </head>
 <body>
-  <section id="scriptContainer">
+  <!-- Add class="type_string" to elements with text you wish to have typed out;
+  Add startdelay="<milliseconds>" to elements you wish to start typing later, default is 0;
+  Add typespeed="<milliseconds>" to adjust the delay between each character, default is 20 -->
+
+  <section>
     <p id="dynamicString"></p>
 
-    <p class="type_string_concurrent">dfgjhsdgfkjhsgdfkjhsgdfkjgsdfkjhsdgfkjgsdkjfgsdjh</p>
-    <p class="type_string_concurrent">ljgzdljhgfljsdghflshdjgljsdfglsdhlgkjhdflgkhjdlkh</p>
-    <p class="type_string_concurrent">æhiusiufdfbvmnvbf,jskhdfkghflgusdgfkjfhdlgkjshdfg</p>
+    <p class="type_string">dfgjhsdgfkjhsgdfkjhsgdfkjgsdfkjhsdgfkjgsdkjfgsdjh</p>
+    <p class="type_string" startdelay="0">ljgzdljhgfljsdghflshdjgljsdfglsdhlgkjhdflgkhjdlkh</p>
+    <p class="type_string" startdelay="0" typespeed="50">æhiusiufdfbvmnvbf,jskhdfkghflgusdgfkjfhdlgkjshdfg</p>
 
-    <p class="type_string_staggered">staggered typing</p>
-    <p class="type_string_staggered">looks pretty neat</p>
-    <p class="type_string_staggered">i think, iunno if</p>
-    <p class="type_string_staggered">you agree but i</p>
-    <p class="type_string_staggered">don't care :V</p>
+    <p class="type_string" startdelay="0">staggered typing</p>
+    <p class="type_string" startdelay="200" typespeed="50">looks pretty neat</p>
+    <p class="type_string" startdelay="400" typespeed="0">i think, iunno if</p>
+    <p class="type_string" startdelay="600" typespeed="100">you agree but i</p>
+    <p class="type_string" startdelay="800">don't care :V</p>
   </section>
 
-  <script src="js/script.js" charset="utf-8"></script>
+  <script src="js/typestring.js" charset="utf-8"></script>
 </body>
 </html>
