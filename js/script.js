@@ -2,8 +2,8 @@ let concurrentTypeStrings = document.getElementsByClassName("type_string_concurr
 let staggeredTypeStrings = document.getElementsByClassName("type_string_staggered");    // type_string_concurrent happen simultaneously, type_string_staggered happen one after another
 let staggerStrings = [];
 let staggerIters = 0;
-let delay = 20;             // Delay between symbols in milliseconds
-let staggerDelay = delay*5; // Delay between staggered typings starting, also in milliseconds
+let delay = 20;               // Delay between symbols in milliseconds
+let staggerDelay = delay * 5; // Delay between staggered typings starting, also in milliseconds
 
 //////////////////////////////////////////////////////////////
 // Probably make the typeString calls in here to keep it clean
@@ -11,28 +11,24 @@ let staggerDelay = delay*5; // Delay between staggered typings starting, also in
 //////////////////////////////////////////////////////////////
 
 // Loop through staggered type strings and put their content in the staggerStrings array
-for (let element of staggeredTypeStrings)
-{
+for (let element of staggeredTypeStrings) {
   staggerStrings.push(element.innerHTML);
   element.innerHTML = "";
 }
 
 // The interval that ticks through the staggered strings, starting them individually
 let staggerBot = setInterval(function() {
-  if (staggerIters < staggerStrings.length)
-  {
+  if (staggerIters < staggerStrings.length) {
     typeString(staggerStrings[staggerIters], delay, staggeredTypeStrings[staggerIters]);
     staggerIters++;
-  }
-  else {
+  } else {
     clearInterval(staggerBot);
     staggerIters = 0;
   }
 }, staggerDelay);
 
 // Loops through all concurrent type strings and starts typing them
-for (let element of concurrentTypeStrings)
-{
+for (let element of concurrentTypeStrings) {
   let tempString = element.innerHTML;
   element.innerHTML = "";
   typeString(tempString, delay, element);
